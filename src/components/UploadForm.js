@@ -8,40 +8,64 @@ export class UploadForm extends Component {
     file: '',
 }
 
-handleSubmit = (e) => {
-    e.preventDefault();
-    let upload = this.state.file;
-    fetch('https://raw.githubusercontent.com/PDNMX/api_docs/master/S1/oas/declaraciones.json')
-      .then(
-        function(response) {
-          if (response.status !== 200) {
-            console.log('Error al obtener la especificación: ' +
-              response.status);
-            return;
-          }
-          response.json().then(function(data) {
-            SwaggerParser.validate(data, function(err, esquema) {
-              if (err) {
-                console.error(err);
+  handleSubmit = (e) => {
+      e.preventDefault();
+      let upload = this.state.file;
+      // fetch('https://raw.githubusercontent.com/PDNMX/api_docs/master/S1/oas/declaraciones.json')
+      //   .then(
+      //     function(response) {
+      //       if (response.status !== 200) {
+      //         console.log('Error al obtener la especificación: ' +
+      //           response.status);
+      //         return;
+      //       }
+      //       response.json().then(function(data) {
+      //         SwaggerParser.validate(data, function(err, esquema) {
+      //           if (err) {
+      //             console.error(err);
+      //           }
+      //           else {
+      //             let ajv = new Ajv({ allErrors: true });
+      //             let validate = ajv.compile(esquema.components.schemas.Declaraciones);
+      //             let valid = validate(JSON.parse(upload));
+      //             if (valid) {
+      //                 console.log('Valid!');
+      //                 this.props.onResults(valid)
+      //             } else {
+      //                 console.log('Invalid: ' + ajv.errorsText(validate.errors));
+      //                 this.props.onResults(ajv.errorsText(validate.errors))
+      //             }
+      //           }
+      //         });
+      //       });
+      //     }
+      //   )
+      //   .catch(function(err) {
+      //     console.log('Fetch Error :-S', err);
+      //   });
+      fetch('https://raw.githubusercontent.com/PDNMX/api_docs/master/S1/oas/declaraciones.json')
+        .then(res => res.json())
+        .then(results => {
+          // console.log(results)
+          SwaggerParser.validate(results)
+            .then((esquema) => {
+              // this.props.onResults(api)
+              let ajv = new Ajv({ allErrors: true });
+              let validate = ajv.compile(esquema.components.schemas.Declaraciones);
+              let valid = validate(JSON.parse(upload));
+              if (valid) {
+                  // console.log('Valid!');
+                  this.props.onResults(valid)
+              } else {
+                  // console.log('Invalid: ' + ajv.errorsText(validate.errors));
+                  this.props.onResults(validate.errors)
               }
-              else {
-                let ajv = new Ajv({ allErrors: true });
-                let validate = ajv.compile(esquema.components.schemas.Declaraciones);
-                let valid = validate(JSON.parse(upload));
-                if (valid) {
-                    console.log('Valid!');
-                } else {
-                    console.log('Invalid: ' + ajv.errorsText(validate.errors));
-                }
-              }
-            });
+            })
+          .catch(function(err) {
+            console.error(err);
           });
-        }
-      )
-      .catch(function(err) {
-        console.log('Fetch Error :-S', err);
-      });
-}
+      })
+    }
 
 // Handle Upload Using FileReader
 handleFile = (e) => {
