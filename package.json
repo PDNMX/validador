@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
-    "prop-types": "^15.6.2",
+    "ajv": "^6.8.1",
+    "ajv-i18n": "^3.4.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3",

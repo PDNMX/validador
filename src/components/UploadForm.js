@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 let Ajv = require('ajv');
+let localize = require('ajv-i18n');
 let SwaggerParser = require('swagger-parser');
 
 export class UploadForm extends Component {
@@ -98,7 +99,7 @@ handleFile = (e) => {
                 this.props.onResults(valid)
             } else {
                 // console.log('Invalid: ' + ajv.errorsText(validate.errors));
-                console.log(validate.errors)
+                localize.es(validate.errors)
                 this.props.onResults(validate.errors)
             }
           })
