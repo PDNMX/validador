@@ -25,7 +25,6 @@ class App extends Component {
     // return results.map((swaggerError, i) => {
     //   return <p key={i}>{swaggerError.message}</p>
     // })
-
     return (
         <Paper>
           <Table>
@@ -40,7 +39,7 @@ class App extends Component {
               {results.map((row, i) => (
                 <TableRow key={i}>
                   <TableCell>{row.dataPath}</TableCell>
-                  <TableCell>{row.message}</TableCell>
+                  <TableCell className='txtError'>{row.message}</TableCell>
                   <TableCell>{row.keyword}</TableCell>
                 </TableRow>
               ))}
@@ -62,16 +61,17 @@ class App extends Component {
           <center>
           <Grid container spacing={0} justify="center" className="contenedor">
               <Grid item xs={12}>
-              <h2>En está página puedes validar un archivo JSON respecto al esquema del estándar de Declaraciones</h2>
+              <h5 id='mainTxt'>En está página puedes validar un archivo JSON respecto al esquema de datos del estándar de Declaraciones</h5>
                 <UploadForm onResults={this._handleResults}/>
                 <br/>
                 {this.state.usedForm
                   ? this._renderFirst()
-                  : <small> Debes cargar un archivo </small>
+                  : <br/>
                 }
               </Grid>
           </Grid>
           </center>
+          <br/>
         </div>
     );
   }

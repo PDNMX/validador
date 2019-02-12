@@ -112,9 +112,9 @@ handleFile = (e) => {
   render() {
     return (
       <div>
-        <Button variant="contained" component="label" disabled={this.state.disabled}>
+        <Button variant="contained" component="label" disabled={this.state.disabled} size='large'>
           {this.state.label}
-          <input onChange={this.handleFile} type="file" style={{ display: "none" }}
+          <input onChange={this.handleFile} accept="application/json" type="file" style={{ display: "none" }}
           />
         </Button>
       </div>
